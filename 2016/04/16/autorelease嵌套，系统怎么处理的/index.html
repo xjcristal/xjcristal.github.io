@@ -10,7 +10,13 @@
 
     <!--Description-->
     
-        <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in ">
+        <meta name="description" content="autorelease嵌套，系统怎么处理的tags: 
+
+iOS开发
+面试
+
+
+Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Auto">
     
 
     <!--Author-->
@@ -20,7 +26,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Hello World"/>
+        <meta property="og:title" content="autorelease嵌套，系统怎么处理的"/>
     
 
     <!--Open Graph Site Name-->
@@ -33,7 +39,7 @@
 
     <!-- Title -->
     
-    <title>Hello World - Thinking</title>
+    <title>autorelease嵌套，系统怎么处理的 - Thinking</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
@@ -107,7 +113,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-heading">
-                    <h1>Hello World</h1>
+                    <h1>autorelease嵌套，系统怎么处理的</h1>
                     
                     <span class="meta">
                         <!-- Date and Author -->
@@ -133,15 +139,33 @@
 
             <!-- Post Main Content -->
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+                <h1 id="autorelease嵌套，系统怎么处理的"><a href="#autorelease嵌套，系统怎么处理的" class="headerlink" title="autorelease嵌套，系统怎么处理的"></a>autorelease嵌套，系统怎么处理的</h1><p>tags: </p>
+<ul>
+<li>iOS开发</li>
+<li>面试</li>
+</ul>
+<hr>
+<h1 id="Autorelease原理"><a href="#Autorelease原理" class="headerlink" title="Autorelease原理"></a><strong>Autorelease原理</strong></h1><p>先声明一下本文引用自<a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/" target="_blank" rel="external">黑幕背后的Autorelease</a>，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～<br>Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autoreleasepool{}来使用一个AutoreleasePool。</p>
+<h2 id="一、AutoreleasePoolPage"><a href="#一、AutoreleasePoolPage" class="headerlink" title="一、AutoreleasePoolPage"></a>一、AutoreleasePoolPage</h2><p>AutoreleasePoolPage是一个C++类，首先看看AutoreleasePoolPage的数据结构：<br><img src="http://ww2.sinaimg.cn/mw690/51530583gw1elj2ugt21wj20f109m3zl.jpg" alt="AutoreleasePoolPage数据结构图"><br>AutoreleasePool是由若干个AutoreleasePoolPage以<font color="red"> 双向链表</font>的形式组合而成的，即分别对应结构中的parent指针和child指针，一个AutoreleasePoolPage对象会开辟4096byte的内存（虚拟内存一页的大小），一旦AutoreleasePoolPage的空间被占满时，会新建一个AutoreleasePoolPage对象，以链表的形式连接起来，后来的autorelease对象会被加入新的page中。</p>
+<p>从上图中还可以看出：</p>
+<ul>
+<li>AutoreleasePool与线程是一一对应的（结构中的thread指针指向当前线程）</li>
+<li>上面的<font color="red">id *next</font>指针是指向加进来的autorelease对象的下一个位置</li>
+</ul>
+<p>所以，若当前线程只有一个AutoreleasePoolPage对象，并记录了很多autorelease对象地址时，内存分配如下：<br><img src="http://ww2.sinaimg.cn/mw690/51530583gw1elj5gvphtqj20dy0cx756.jpg" alt="AutoreleasePoolPage内存分配情况"><br>如图中的情况，这一页再加入一个autorelease对象就满了（next指针马上指向栈顶），这时就会建立下一个page对象，与这一页链表连接完成后，新page的next指针会被初始化在栈底（begin的位置），然后继续添加新对象。</p>
+<h2 id="二、释放时刻"><a href="#二、释放时刻" class="headerlink" title="二、释放时刻"></a>二、释放时刻</h2><p><strong>向一个对象发送<font color="red">- autorelease</font>消息，就是将这个对象加入到当前的AutoreleasePoolPage的栈顶next指针指向的位置。</strong><br><strong>对于<font color="red">@autoreleasepool{}</font>，编译器会将其改写成下面的样子：</strong></p>
+<pre><code>void *context = objc_autoreleasePoolPush();
+//执行{}中的代码
+objc_autoreleasePoolPop(context);
+</code></pre><p>每当进行一次<font color="red">objc_autoreleasePoolPush</font>调用时，runtime向当前的AutoreleasePoolPage中add进一个<font color="red">哨兵对象</font>，值为0（也就是nil），那么这一个page就变成了下面的样子：<br><img src="http://ww2.sinaimg.cn/large/51530583gw1elj5z7hawej20ji0dewff.jpg" alt="调用objc_autoreleasePoolPush后"></p>
+<p><font color="red">objc_autoreleasePoolPush</font>的返回值正是这个哨兵对象的地址，传入<font color="red">objc_autoreleasePoolPop</font>作为参数，于是：</p>
+<ol>
+<li>根据传入的哨兵对象地址找到哨兵对象所处的page</li>
+<li>在当前page中，向晚于哨兵对象插入的所有autorelease对象都发送一次<font color="red">- release</font>消息，并向回移动<font color="red">next</font>指针到正确位置</li>
+<li>补充2，从最新加入到对象一直向前清理，可以向前跨越若干个page，直到哨兵所在page</li>
+</ol>
+<p>在执行完objc_autoreleasePoolPop后，最终变成了下面的样子：<br><img src="http://ww3.sinaimg.cn/mw690/51530583gw1elj6u2i3fyj20dz0bqdgi.jpg" alt="执行了objc_autoreleasePoolPop"></p>
+<h2 id="三、嵌套的AutoreleasePool"><a href="#三、嵌套的AutoreleasePool" class="headerlink" title="三、嵌套的AutoreleasePool"></a>三、嵌套的AutoreleasePool</h2><p>从上面的分析中，可以知道：pop的时候总会释放到上次push的位置，多层的pool就是多个哨兵对象而已。<br>每一层AutoreleasePool都在进行一次pop、push操作。</p>
 
             </div>
 
