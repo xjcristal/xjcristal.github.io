@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="面试,iOS开发," />
 
 
 
@@ -80,19 +80,22 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="1.引用计数实现原理
+本文引用自内存管理原理，先记录一些要点。iOS中说到内存管理，不管是手动还是ARC，都离不开引用计数。那引用计数是怎么存储的？runtime采用hash table（散列表）来统一存储所有对象的引用计数。凡事使用引用计数的方法，包括retainCount、retain、release方法都调用了同一个方法，该方法的实现原理简化后如下所示：
+id _CFDoExternRefO">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://xjcristal.github.io/blog/2016/04/16/hello-world/index.html">
+<meta property="og:title" content="ARC之weak关键字">
+<meta property="og:url" content="http://xjcristal.github.io/blog/2016/04/18/ARC之weak关键字/index.html">
 <meta property="og:site_name" content="Thinking">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-04-16T03:46:39.000Z">
+<meta property="og:description" content="1.引用计数实现原理
+本文引用自内存管理原理，先记录一些要点。iOS中说到内存管理，不管是手动还是ARC，都离不开引用计数。那引用计数是怎么存储的？runtime采用hash table（散列表）来统一存储所有对象的引用计数。凡事使用引用计数的方法，包括retainCount、retain、release方法都调用了同一个方法，该方法的实现原理简化后如下所示：
+id _CFDoExternRefO">
+<meta property="og:updated_time" content="2016-04-18T11:07:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="ARC之weak关键字">
+<meta name="twitter:description" content="1.引用计数实现原理
+本文引用自内存管理原理，先记录一些要点。iOS中说到内存管理，不管是手动还是ARC，都离不开引用计数。那引用计数是怎么存储的？runtime采用hash table（散列表）来统一存储所有对象的引用计数。凡事使用引用计数的方法，包括retainCount、retain、release方法都调用了同一个方法，该方法的实现原理简化后如下所示：
+id _CFDoExternRefO">
 
 
 
@@ -110,7 +113,7 @@ Quick">
   };
 </script>
 
-  <title> Hello World | Thinking </title>
+  <title> ARC之weak关键字 | Thinking </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans,en,default">
@@ -230,7 +233,7 @@ Quick">
             
             
               
-                Hello World
+                ARC之weak关键字
               
             
           </h1>
@@ -242,14 +245,40 @@ Quick">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-16T11:46:39+08:00" content="2016-04-16">
-              2016-04-16
+            <time itemprop="dateCreated" datetime="2016-04-18T00:00:00+08:00" content="2016-04-18">
+              2016-04-18
             </time>
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/18/ARC之weak关键字/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/18/ARC之weak关键字/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -270,15 +299,26 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p><strong>1.引用计数实现原理</strong></p>
+<p>本文引用自<a href="http://blog.csdn.net/wzzvictory/article/details/17694129" target="_blank" rel="external">内存管理原理</a>，先记录一些要点。iOS中说到内存管理，不管是手动还是ARC，都离不开引用计数。那引用计数是怎么存储的？runtime采用<font color="red">hash table（散列表）</font>来统一存储所有对象的引用计数。凡事使用引用计数的方法，包括retainCount、retain、release方法都调用了同一个方法，该方法的<font color="red">实现原理</font>简化后如下所示：</p>
+<p>id _CFDoExternRefOperation(uintptr_t op, id obj)<br>{<br>CFBasicHashRef table = 取得对象的散列表(obj);<br>int count;</p>
+<p>switch(op)<br>{<br>case OPERATION_retainCount:<br>count = CFBasicHashGetCountOfKey(table, obj);<br>return count;<br>case OPERATION_retain:<br>CFBasicHashAddValue(table, obj);<br>return obj;<br>case OPERATION_release:<br>count = CFBasicHashRemoveValue(table, obj);<br>return 0 == count;<br>}<br>}</p>
+<p><strong>2.__weak关键字</strong></p>
+<p>当一个__weak类型的指针指向的对象被释放时，该指针会自动被置成nil，那么这个功能是怎么实现的？<br>先看这段代码：</p>
+<p>id __weak obj1 = obj;//声明一个weak对象<br>经过编译器后，模拟代码如下：</p>
+<p>id obj1;<br>objc_initWeak(&amp;obj1, obj);//初始化__weak修饰的变量<br>objc_destroyWeak(&amp;obj1);//当变量的作用域结束后释放该变量</p>
+<p>objc_initWeak函数实际干的活是：</p>
+<p>objc1 = 0;//先将objc1置成0<br>objc_storeWeak(&amp;objc1, obj);//objc1指向obj对象</p>
+<p>objc_destoryWeak实际操作如下：</p>
+<p>objc_storeWeak(&amp;objc1, 0);//obj1指针指向的内容置成空</p>
+<p><strong>3.__weak实现原理</strong></p>
+<p>objc_storeWeak函数会把第二个参数的对象的地址作为key，并将第一个参数（weak关键字修饰的指针的地址）作为value，注册到weak表（与引用计数表类似，都是hash table）中。如果第二个参数为0（说明对应的对象被释放了），则将weak表中key-value键值对删除。</p>
+<p>在调用对象的release方法时，会在其中一步调用objc_clear_deallocating函数，该函数会执行以下操作：</p>
+<ol>
+<li>以对象的地址作为key，从weak表中获取对应的值－－指向该对象的__weak类型的指针变量；</li>
+<li>将取到的指针变量的值赋值为nil；</li>
+<li>从weak表中删除该key对应的整条记录。</li>
+</ol>
 
       
     </div>
@@ -297,18 +337,26 @@ Quick">
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag">#面试</a>
+          
+            <a href="/tags/iOS开发/" rel="tag">#iOS开发</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/04/16/autorelease嵌套，系统怎么处理的/" rel="next" title="autorelease嵌套，系统怎么处理的">
+                <i class="fa fa-chevron-left"></i> autorelease嵌套，系统怎么处理的
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/16/autorelease嵌套，系统怎么处理的/" rel="prev" title="autorelease嵌套，系统怎么处理的">
-                autorelease嵌套，系统怎么处理的 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -333,6 +381,10 @@ Quick">
 
           
   <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/18/ARC之weak关键字/"
+           data-title="ARC之weak关键字" data-url="http://xjcristal.github.io/blog/2016/04/18/ARC之weak关键字/">
+      </div>
     
   </div>
 
@@ -376,11 +428,18 @@ Quick">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">2</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
           
 
           
@@ -415,7 +474,7 @@ Quick">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
@@ -536,9 +595,28 @@ Quick">
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xjcristal"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
   
+    
+  
+
+
 
 
 
