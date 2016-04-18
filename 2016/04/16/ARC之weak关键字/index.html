@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="面试,iOS开发," />
 
 
 
@@ -80,15 +80,22 @@
 
 
 
-<meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Thinking">
-<meta property="og:url" content="http://xjcristal.github.io/blog/index.html">
+<meta name="description" content="1.引用计数实现原理
+本文引用自内存管理原理，先记录一些要点。iOS中说到内存管理，不管是手动还是ARC，都离不开引用计数。那引用计数是怎么存储的？runtime采用hash table（散列表）来统一存储所有对象的引用计数。凡事使用引用计数的方法，包括retainCount、retain、release方法都调用了同一个方法，该方法的实现原理简化后如下所示：
+id _CFDoExternRefO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARC之weak关键字">
+<meta property="og:url" content="http://xjcristal.github.io/blog/2016/04/16/ARC之weak关键字/index.html">
 <meta property="og:site_name" content="Thinking">
-<meta property="og:description">
+<meta property="og:description" content="1.引用计数实现原理
+本文引用自内存管理原理，先记录一些要点。iOS中说到内存管理，不管是手动还是ARC，都离不开引用计数。那引用计数是怎么存储的？runtime采用hash table（散列表）来统一存储所有对象的引用计数。凡事使用引用计数的方法，包括retainCount、retain、release方法都调用了同一个方法，该方法的实现原理简化后如下所示：
+id _CFDoExternRefO">
+<meta property="og:updated_time" content="2016-04-18T09:37:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Thinking">
-<meta name="twitter:description">
+<meta name="twitter:title" content="ARC之weak关键字">
+<meta name="twitter:description" content="1.引用计数实现原理
+本文引用自内存管理原理，先记录一些要点。iOS中说到内存管理，不管是手动还是ARC，都离不开引用计数。那引用计数是怎么存储的？runtime采用hash table（散列表）来统一存储所有对象的引用计数。凡事使用引用计数的方法，包括retainCount、retain、release方法都调用了同一个方法，该方法的实现原理简化后如下所示：
+id _CFDoExternRefO">
 
 
 
@@ -106,7 +113,7 @@
   };
 </script>
 
-  <title> Thinking </title>
+  <title> ARC之weak关键字 | Thinking </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans,en,default">
@@ -127,9 +134,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -206,9 +211,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -228,10 +233,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/04/16/ARC之weak关键字/" itemprop="url">
-                  ARC之weak关键字
-                </a>
+                ARC之weak关键字
               
             
           </h1>
@@ -271,244 +273,80 @@
       
 
       
-        
-          
-          1.引用计数实现原理
-本文引用自内存管理原理，先记录一些要点。iOS中说到内存管理，不管是手动还是ARC，都离不开引用计数。那引用计数是怎么存储的？runtime采用hash table（散列表）来统一存储所有对象的引用计数。凡事使用引用计数的方法，包括retainCount、retain、rele
-          ...
+        <p><strong>1.引用计数实现原理</strong></p>
+<p>本文引用自<a href="http://blog.csdn.net/wzzvictory/article/details/17694129" target="_blank" rel="external">内存管理原理</a>，先记录一些要点。iOS中说到内存管理，不管是手动还是ARC，都离不开引用计数。那引用计数是怎么存储的？runtime采用<font color="red">hash table（散列表）</font>来统一存储所有对象的引用计数。凡事使用引用计数的方法，包括retainCount、retain、release方法都调用了同一个方法，该方法的<font color="red">实现原理</font>简化后如下所示：</p>
+<p>id _CFDoExternRefOperation(uintptr_t op, id obj)<br>{<br>CFBasicHashRef table = 取得对象的散列表(obj);<br>int count;</p>
+<p>switch(op)<br>{<br>case OPERATION_retainCount:<br>count = CFBasicHashGetCountOfKey(table, obj);<br>return count;<br>case OPERATION_retain:<br>CFBasicHashAddValue(table, obj);<br>return obj;<br>case OPERATION_release:<br>count = CFBasicHashRemoveValue(table, obj);<br>return 0 == count;<br>}<br>}</p>
+<p><strong>2.__weak关键字</strong></p>
+<p>当一个__weak类型的指针指向的对象被释放时，该指针会自动被置成nil，那么这个功能是怎么实现的？<br>先看这段代码：</p>
+<p>id __weak obj1 = obj;//声明一个weak对象<br>经过编译器后，模拟代码如下：</p>
+<p>id obj1;<br>objc_initWeak(&amp;obj1, obj);//初始化__weak修饰的变量<br>objc_destroyWeak(&amp;obj1);//当变量的作用域结束后释放该变量</p>
+<p>objc_initWeak函数实际干的活是：</p>
+<p>objc1 = 0;//先将objc1置成0<br>objc_storeWeak(&amp;objc1, obj);//objc1指向obj对象</p>
+<p>objc_destoryWeak实际操作如下：</p>
+<p>objc_storeWeak(&amp;objc1, 0);//obj1指针指向的内容置成空</p>
+<p><strong>3.__weak实现原理</strong></p>
+<p>objc_storeWeak函数会把第二个参数的对象的地址作为key，并将第一个参数（weak关键字修饰的指针的地址）作为value，注册到weak表（与引用计数表类似，都是hash table）中。如果第二个参数为0（说明对应的对象被释放了），则将weak表中key-value键值对删除。</p>
+<p>在调用对象的release方法时，会在其中一步调用objc_clear_deallocating函数，该函数会执行以下操作：</p>
+<ol>
+<li>以对象的地址作为key，从weak表中获取对应的值－－指向该对象的__weak类型的指针变量；</li>
+<li>将取到的指针变量的值赋值为nil；</li>
+<li>从weak表中删除该key对应的整条记录。</li>
+</ol>
 
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/16/ARC之weak关键字/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
       
     </div>
     
     <div>
       
+        
+      
     </div>
 
     <div>
+      
+        
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/16/autorelease嵌套，系统怎么处理的/" itemprop="url">
-                  autorelease嵌套，系统怎么处理的
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-16T15:44:46+08:00" content="2016-04-16">
-              2016-04-16
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/面试/" rel="tag">#面试</a>
           
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/iOS开发/" rel="tag">#iOS开发</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/16/autorelease嵌套，系统怎么处理的/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/16/autorelease嵌套，系统怎么处理的/" rel="next" title="autorelease嵌套，系统怎么处理的">
+                <i class="fa fa-chevron-left"></i> autorelease嵌套，系统怎么处理的
+              </a>
+            
           </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2016/04/16/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-16T11:46:39+08:00" content="2016-04-16">
-              2016-04-16
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/04/16/hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-    
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -516,6 +354,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -535,8 +377,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/flower.jpg"
@@ -579,6 +430,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -682,6 +544,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

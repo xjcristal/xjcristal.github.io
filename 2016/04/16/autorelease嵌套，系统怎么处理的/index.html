@@ -80,23 +80,20 @@
 
 
 
-<meta name="description" content="autorelease嵌套，系统怎么处理的
-Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在A">
+<meta name="description" content="Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autorelease">
 <meta property="og:type" content="article">
 <meta property="og:title" content="autorelease嵌套，系统怎么处理的">
 <meta property="og:url" content="http://xjcristal.github.io/blog/2016/04/16/autorelease嵌套，系统怎么处理的/index.html">
 <meta property="og:site_name" content="Thinking">
-<meta property="og:description" content="autorelease嵌套，系统怎么处理的
-Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在A">
+<meta property="og:description" content="Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autorelease">
 <meta property="og:image" content="http://ww2.sinaimg.cn/mw690/51530583gw1elj2ugt21wj20f109m3zl.jpg">
 <meta property="og:image" content="http://ww2.sinaimg.cn/mw690/51530583gw1elj5gvphtqj20dy0cx756.jpg">
 <meta property="og:image" content="http://ww2.sinaimg.cn/large/51530583gw1elj5z7hawej20ji0dewff.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/mw690/51530583gw1elj6u2i3fyj20dz0bqdgi.jpg">
-<meta property="og:updated_time" content="2016-04-16T14:12:49.000Z">
+<meta property="og:updated_time" content="2016-04-18T09:37:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="autorelease嵌套，系统怎么处理的">
-<meta name="twitter:description" content="autorelease嵌套，系统怎么处理的
-Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在A">
+<meta name="twitter:description" content="Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autorelease">
 <meta name="twitter:image" content="http://ww2.sinaimg.cn/mw690/51530583gw1elj2ugt21wj20f109m3zl.jpg">
 
 
@@ -275,8 +272,7 @@ Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原�
       
 
       
-        <h1 id="autorelease嵌套，系统怎么处理的"><a href="#autorelease嵌套，系统怎么处理的" class="headerlink" title="autorelease嵌套，系统怎么处理的"></a>autorelease嵌套，系统怎么处理的</h1><hr>
-<h1 id="Autorelease原理"><a href="#Autorelease原理" class="headerlink" title="Autorelease原理"></a><strong>Autorelease原理</strong></h1><p>先声明一下本文引用自<a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/" target="_blank" rel="external">黑幕背后的Autorelease</a>，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～<br>Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autoreleasepool{}来使用一个AutoreleasePool。</p>
+        <h1 id="Autorelease原理"><a href="#Autorelease原理" class="headerlink" title="Autorelease原理"></a><strong>Autorelease原理</strong></h1><p>先声明一下本文引用自<a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/" target="_blank" rel="external">黑幕背后的Autorelease</a>，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～<br>Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autoreleasepool{}来使用一个AutoreleasePool。</p>
 <h2 id="一、AutoreleasePoolPage"><a href="#一、AutoreleasePoolPage" class="headerlink" title="一、AutoreleasePoolPage"></a>一、AutoreleasePoolPage</h2><p>AutoreleasePoolPage是一个C++类，首先看看AutoreleasePoolPage的数据结构：<br><img src="http://ww2.sinaimg.cn/mw690/51530583gw1elj2ugt21wj20f109m3zl.jpg" alt="AutoreleasePoolPage数据结构图"><br>AutoreleasePool是由若干个AutoreleasePoolPage以<font color="red"> 双向链表</font>的形式组合而成的，即分别对应结构中的parent指针和child指针，一个AutoreleasePoolPage对象会开辟4096byte的内存（虚拟内存一页的大小），一旦AutoreleasePoolPage的空间被占满时，会新建一个AutoreleasePoolPage对象，以链表的形式连接起来，后来的autorelease对象会被加入新的page中。</p>
 <p>从上图中还可以看出：</p>
 <ul>
@@ -335,6 +331,10 @@ objc_autoreleasePoolPop(context);
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/16/ARC之weak关键字/" rel="prev" title="ARC之weak关键字">
+                ARC之weak关键字 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -402,7 +402,7 @@ objc_autoreleasePoolPop(context);
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -441,7 +441,7 @@ objc_autoreleasePoolPop(context);
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#autorelease嵌套，系统怎么处理的"><span class="nav-number">1.</span> <span class="nav-text">autorelease嵌套，系统怎么处理的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Autorelease原理"><span class="nav-number">2.</span> <span class="nav-text">Autorelease原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、AutoreleasePoolPage"><span class="nav-number">2.1.</span> <span class="nav-text">一、AutoreleasePoolPage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、释放时刻"><span class="nav-number">2.2.</span> <span class="nav-text">二、释放时刻</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、嵌套的AutoreleasePool"><span class="nav-number">2.3.</span> <span class="nav-text">三、嵌套的AutoreleasePool</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Autorelease原理"><span class="nav-number">1.</span> <span class="nav-text">Autorelease原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、AutoreleasePoolPage"><span class="nav-number">1.1.</span> <span class="nav-text">一、AutoreleasePoolPage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、释放时刻"><span class="nav-number">1.2.</span> <span class="nav-text">二、释放时刻</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、嵌套的AutoreleasePool"><span class="nav-number">1.3.</span> <span class="nav-text">三、嵌套的AutoreleasePool</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
