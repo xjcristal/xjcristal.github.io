@@ -64,7 +64,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="面试,iOS开发," />
+  <meta name="keywords" content="算法," />
 
 
 
@@ -80,21 +80,31 @@
 
 
 
-<meta name="description" content="Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autorelease">
+<meta name="description" content="原文链接为算法剖析，解析得很通俗易懂，mark一下。具体解析看原文就很清晰明了，我在这里就贴上代码了。（其实也是摘录自原文，但是自己手动敲了一遍）。不得不感慨使用指针来截取数组还是很方便的。
+int findKthElement(int *A, int m, int *B, int n, int k)
+{
+    if (m == 0) {
+        return B[k-1];
+    }">
 <meta property="og:type" content="article">
-<meta property="og:title" content="autorelease嵌套，系统怎么处理的">
-<meta property="og:url" content="http://xjcristal.github.io/blog/2016/04/16/autorelease嵌套，系统怎么处理的/index.html">
+<meta property="og:title" content="两个有序数组中查找第k大的数">
+<meta property="og:url" content="http://xjcristal.github.io/blog/2016/04/19/两个有序数组中查找第k大的数/index.html">
 <meta property="og:site_name" content="Thinking">
-<meta property="og:description" content="Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autorelease">
-<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/51530583gw1elj2ugt21wj20f109m3zl.jpg">
-<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/51530583gw1elj5gvphtqj20dy0cx756.jpg">
-<meta property="og:image" content="http://ww2.sinaimg.cn/large/51530583gw1elj5z7hawej20ji0dewff.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/51530583gw1elj6u2i3fyj20dz0bqdgi.jpg">
-<meta property="og:updated_time" content="2016-04-18T11:07:45.000Z">
+<meta property="og:description" content="原文链接为算法剖析，解析得很通俗易懂，mark一下。具体解析看原文就很清晰明了，我在这里就贴上代码了。（其实也是摘录自原文，但是自己手动敲了一遍）。不得不感慨使用指针来截取数组还是很方便的。
+int findKthElement(int *A, int m, int *B, int n, int k)
+{
+    if (m == 0) {
+        return B[k-1];
+    }">
+<meta property="og:updated_time" content="2016-04-19T05:51:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="autorelease嵌套，系统怎么处理的">
-<meta name="twitter:description" content="Autorelease原理先声明一下本文引用自黑幕背后的Autorelease，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autorelease">
-<meta name="twitter:image" content="http://ww2.sinaimg.cn/mw690/51530583gw1elj2ugt21wj20f109m3zl.jpg">
+<meta name="twitter:title" content="两个有序数组中查找第k大的数">
+<meta name="twitter:description" content="原文链接为算法剖析，解析得很通俗易懂，mark一下。具体解析看原文就很清晰明了，我在这里就贴上代码了。（其实也是摘录自原文，但是自己手动敲了一遍）。不得不感慨使用指针来截取数组还是很方便的。
+int findKthElement(int *A, int m, int *B, int n, int k)
+{
+    if (m == 0) {
+        return B[k-1];
+    }">
 
 
 
@@ -112,7 +122,7 @@
   };
 </script>
 
-  <title> autorelease嵌套，系统怎么处理的 | Thinking </title>
+  <title> 两个有序数组中查找第k大的数 | Thinking </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans,en,default">
@@ -242,7 +252,7 @@
             
             
               
-                autorelease嵌套，系统怎么处理的
+                两个有序数组中查找第k大的数
               
             
           </h1>
@@ -254,38 +264,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-16T15:44:46+08:00" content="2016-04-16">
-              2016-04-16
+            <time itemprop="dateCreated" datetime="2016-04-19T12:33:51+08:00" content="2016-04-19">
+              2016-04-19
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS开发</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/16/autorelease嵌套，系统怎么处理的/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/16/autorelease嵌套，系统怎么处理的/" itemprop="commentsCount"></span>
+                <a href="/2016/04/19/两个有序数组中查找第k大的数/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/19/两个有序数组中查找第k大的数/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -308,28 +299,114 @@
       
 
       
-        <h1 id="Autorelease原理"><a href="#Autorelease原理" class="headerlink" title="Autorelease原理"></a><strong>Autorelease原理</strong></h1><p>先声明一下本文引用自<a href="http://blog.sunnyxx.com/2014/10/15/behind-autorelease/" target="_blank" rel="external">黑幕背后的Autorelease</a>，原文的代码示例好像是有点小问题？但是还是写的很棒，看的同时摘录了一些而已，希望自己能不断积累沉淀别人的精华，最终写出属于自己的精华～<br>Autorelease机制是用于iOS中进行内存管理的一种机制，在MRC模式下，经常会调用［obj autorelease］来延迟内存释放，在ARC模式下，我们使用@autoreleasepool{}来使用一个AutoreleasePool。</p>
-<h2 id="一、AutoreleasePoolPage"><a href="#一、AutoreleasePoolPage" class="headerlink" title="一、AutoreleasePoolPage"></a>一、AutoreleasePoolPage</h2><p>AutoreleasePoolPage是一个C++类，首先看看AutoreleasePoolPage的数据结构：<br><img src="http://ww2.sinaimg.cn/mw690/51530583gw1elj2ugt21wj20f109m3zl.jpg" alt="AutoreleasePoolPage数据结构图"><br>AutoreleasePool是由若干个AutoreleasePoolPage以<font color="red"> 双向链表</font>的形式组合而成的，即分别对应结构中的parent指针和child指针，一个AutoreleasePoolPage对象会开辟4096byte的内存（虚拟内存一页的大小），一旦AutoreleasePoolPage的空间被占满时，会新建一个AutoreleasePoolPage对象，以链表的形式连接起来，后来的autorelease对象会被加入新的page中。</p>
-<p>从上图中还可以看出：</p>
-<ul>
-<li>AutoreleasePool与线程是一一对应的（结构中的thread指针指向当前线程）</li>
-<li>上面的<font color="red">id *next</font>指针是指向加进来的autorelease对象的下一个位置</li>
-</ul>
-<p>所以，若当前线程只有一个AutoreleasePoolPage对象，并记录了很多autorelease对象地址时，内存分配如下：<br><img src="http://ww2.sinaimg.cn/mw690/51530583gw1elj5gvphtqj20dy0cx756.jpg" alt="AutoreleasePoolPage内存分配情况"><br>如图中的情况，这一页再加入一个autorelease对象就满了（next指针马上指向栈顶），这时就会建立下一个page对象，与这一页链表连接完成后，新page的next指针会被初始化在栈底（begin的位置），然后继续添加新对象。</p>
-<h2 id="二、释放时刻"><a href="#二、释放时刻" class="headerlink" title="二、释放时刻"></a>二、释放时刻</h2><p><strong>向一个对象发送<font color="red">- autorelease</font>消息，就是将这个对象加入到当前的AutoreleasePoolPage的栈顶next指针指向的位置。</strong><br><strong>对于<font color="red">@autoreleasepool{}</font>，编译器会将其改写成下面的样子：</strong></p>
-<pre><code>void *context = objc_autoreleasePoolPush();
-//执行{}中的代码
-objc_autoreleasePoolPop(context);
-</code></pre><p>每当进行一次<font color="red">objc_autoreleasePoolPush</font>调用时，runtime向当前的AutoreleasePoolPage中add进一个<font color="red">哨兵对象</font>，值为0（也就是nil），那么这一个page就变成了下面的样子：<br><img src="http://ww2.sinaimg.cn/large/51530583gw1elj5z7hawej20ji0dewff.jpg" alt="调用objc_autoreleasePoolPush后"></p>
-<p><font color="red">objc_autoreleasePoolPush</font>的返回值正是这个哨兵对象的地址，传入<font color="red">objc_autoreleasePoolPop</font>作为参数，于是：</p>
-<ol>
-<li>根据传入的哨兵对象地址找到哨兵对象所处的page</li>
-<li>在当前page中，向晚于哨兵对象插入的所有autorelease对象都发送一次<font color="red">- release</font>消息，并向回移动<font color="red">next</font>指针到正确位置</li>
-<li>补充2，从最新加入到对象一直向前清理，可以向前跨越若干个page，直到哨兵所在page</li>
-</ol>
-<p>在执行完objc_autoreleasePoolPop后，最终变成了下面的样子：<br><img src="http://ww3.sinaimg.cn/mw690/51530583gw1elj6u2i3fyj20dz0bqdgi.jpg" alt="执行了objc_autoreleasePoolPop"></p>
-<h2 id="三、嵌套的AutoreleasePool"><a href="#三、嵌套的AutoreleasePool" class="headerlink" title="三、嵌套的AutoreleasePool"></a>三、嵌套的AutoreleasePool</h2><p>从上面的分析中，可以知道：pop的时候总会释放到上次push的位置，多层的pool就是多个哨兵对象而已。<br>每一层AutoreleasePool都在进行一次pop、push操作。</p>
+        <p>原文链接为<a href="http://www.cnblogs.com/XjChenny/p/3161592.html" target="_blank" rel="external">算法剖析</a>，解析得很通俗易懂，mark一下。具体解析看原文就很清晰明了，我在这里就贴上代码了。（其实也是摘录自原文，但是自己手动敲了一遍）。不得不感慨使用指针来截取数组还是很方便的。</p>
+<pre><code>int findKthElement(int *A, int m, int *B, int n, int k)
+{
+    if (m == 0) {
+        return B[k-1];
+    }
+    if (n == 0) {
+        return A[k-1];
+    }
+    int i = m &gt;&gt; 1, j = n &gt;&gt; 1, *p, *q;
+    if (A[i] &lt;= B[j]) {
+        p = A;
+        q = B;
+    }else p = B, q = A, swap(i, j), swap(m, n);
 
+    if (k &lt;= i + j + 1) {
+        return findKthElement(p, m, q, j, k);
+    }else
+        return findKthElement(p+i+1, m-i-1, q, n, k-i-1);
+}
+</code></pre><p>找中位数只是其中的一个特例，代码如下：</p>
+<pre><code>int findMediumFromTwoSortedArray(int *A, int m, int *B, int n) {
+    if ( (m + n) % 2 == 0) {
+        int k1 = (m + n) &gt;&gt; 1, k2 = k1 + 1;
+        int mk1 = findKthElement(A, m, B, n, k1);
+        int mk2 = findKthElement(A, m, B, n, k2);
+        int m = (mk1 + mk2) &gt;&gt; 1;
+        cout &lt;&lt; &quot;中位数为: &quot;&lt;&lt; mk1 &lt;&lt; &quot;和 &quot;&lt;&lt; mk2 &lt;&lt;&quot;的平均数= &quot;&lt;&lt; m &lt;&lt;endl;
+        return m;
+    }else {
+        int k = (m + n) &gt;&gt; 1;
+        int mk = findKthElement(A, m, B, n, k);
+        cout &lt;&lt; &quot;中位数为：&quot;&lt;&lt; mk &lt;&lt; endl;
+        return mk;
+    }
+}
+</code></pre><p>写了一个用于进行测试的main:</p>
+<pre><code>int main(int argc, const char * argv[]) {
+
+    //生成的测试用例为array中的数，array＝｛1，2...maxN｝;
+    int maxN = 12;
+    vector&lt;int&gt; array;
+    for (int i = 1; i &lt;= maxN; i++) {
+        array.push_back(i);
+    }
+
+    int flag = 100;//生成100次测试用例
+    while (flag--) {
+        int n1 = rand() % maxN;
+        while (n1 == 0) {
+            n1 = rand() % maxN;
+        }
+
+        int n2 = maxN - n1;
+
+        int *array1 = new int[n1];
+        map&lt;int,int&gt; tmap;
+        for (int i = 0; i &lt; n1; i++) {
+            int indx = rand() % maxN;
+            while (tmap.find(indx) != tmap.end()) {
+                indx = rand() % maxN;
+            }
+            tmap.insert(pair&lt;int, int&gt;(indx,1));
+            array1[i] = array[indx];
+        }
+
+
+        int *array2 = new int[n2];
+        for (int i = 0; i &lt; n2; i++) {
+            int indx = rand() % maxN;
+            while (tmap.find(indx) != tmap.end()) {
+                indx = rand() % maxN;
+            }
+            tmap.insert(pair&lt;int, int&gt;(indx,1));
+            array2[i] = array[indx];
+        }
+
+        sort(array1, array1+n1);
+        sort(array2, array2+n2);
+
+        // 到这一步，两个有序的测试数组已经生成。
+
+        cout &lt;&lt; &quot;array1:{ &quot; ;
+        for (int i = 0; i &lt; n1; i++) {
+            cout &lt;&lt; array1[i];
+            if (i != n1-1) {
+                cout &lt;&lt; &quot;,&quot;;
+            }
+        }
+        cout &lt;&lt; &quot;}  &quot;;
+
+        cout &lt;&lt; &quot;array2:{ &quot; ;
+        for (int i = 0; i &lt; n2; i++) {
+            cout &lt;&lt; array2[i];
+            if (i != n2-1) {
+                cout &lt;&lt; &quot;,&quot;;
+            }
+        }
+        cout &lt;&lt; &quot;}  &quot;;
+
+        //求中位数
+        int mthElement = findMediumFromTwoSortedArray(array1, n1, array2, n2);
+        delete[] array1;
+        delete[] array2;
+    }
+    return 0;
+}
+</code></pre>
       
     </div>
     
@@ -349,9 +426,7 @@ objc_autoreleasePoolPop(context);
       
         <div class="post-tags">
           
-            <a href="/tags/面试/" rel="tag">#面试</a>
-          
-            <a href="/tags/iOS开发/" rel="tag">#iOS开发</a>
+            <a href="/tags/算法/" rel="tag">#算法</a>
           
         </div>
       
@@ -360,13 +435,13 @@ objc_autoreleasePoolPop(context);
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/04/18/ARC之weak关键字/" rel="next" title="ARC之weak关键字">
+                <i class="fa fa-chevron-left"></i> ARC之weak关键字
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/18/ARC之weak关键字/" rel="prev" title="ARC之weak关键字">
-                ARC之weak关键字 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -392,8 +467,8 @@ objc_autoreleasePoolPop(context);
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/16/autorelease嵌套，系统怎么处理的/"
-           data-title="autorelease嵌套，系统怎么处理的" data-url="http://xjcristal.github.io/blog/2016/04/16/autorelease嵌套，系统怎么处理的/">
+      <div class="ds-thread" data-thread-key="2016/04/19/两个有序数组中查找第k大的数/"
+           data-title="两个有序数组中查找第k大的数" data-url="http://xjcristal.github.io/blog/2016/04/19/两个有序数组中查找第k大的数/">
       </div>
     
   </div>
@@ -521,7 +596,7 @@ objc_autoreleasePoolPop(context);
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Autorelease原理"><span class="nav-number">1.</span> <span class="nav-text">Autorelease原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、AutoreleasePoolPage"><span class="nav-number">1.1.</span> <span class="nav-text">一、AutoreleasePoolPage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、释放时刻"><span class="nav-number">1.2.</span> <span class="nav-text">二、释放时刻</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、嵌套的AutoreleasePool"><span class="nav-number">1.3.</span> <span class="nav-text">三、嵌套的AutoreleasePool</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
